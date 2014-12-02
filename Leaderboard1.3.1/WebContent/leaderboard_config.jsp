@@ -11,7 +11,8 @@
 <%@ taglib uri="/bbNG" prefix="bbNG"%>
 <%@ taglib prefix="bbUI" uri="/bbUI" %>
 <%@page import="blackboard.servlet.data.MultiSelectBean"%>
-
+<%@page import="javax.swing.JFrame"%>
+<%@page import="javax.swing.JOptionPane"%> 	 	
 
 <%@page import="com.spvsoftwareproducts.blackboard.utils.B2Context"%>
 <bbNG:modulePage type="personalize" ctxId="ctx">
@@ -87,13 +88,18 @@
 							//Establish levels for students based on XP
 							//Currently, students start at an unnamed Level 1 and have a lelvel cap of 10.
 							//We may want to change this where they start at 0 and can go to as many levels as the teacher allows.
-							for(int i = 2; i <= 10; i++) { 
+							for(int i = 1; i <= 10; i++) { 
 								//Sets default level titles
 								String levelLabel;
 								String levelPoints;
 								levelLabel = level_labels[i-1];
 								levelPoints = level_values[i-1];
+								
 								//Sets some default values if none is set
+								if(i == 1){
+									levelLabel = "Noob";
+									levelPoints = "0";
+								}
 								if(i == 2 && levelLabel.equals("") && levelPoints.equals("")) {
 									levelLabel = "Apprentice";
 									levelPoints = "100";
@@ -110,19 +116,29 @@
 									levelLabel = "Grand Master";
 									levelPoints = "1000";
 								}
-								
+								//use Dave instead of the dollar sign, IMPORT JQUERY NOCONFLICT
 							%>
 								<tr id="Level_<%= i %>">
 									<td>Level <%= i %> </td>
 									<input type="hidden" name="courseID" value="<%= courseID.toExternalString() %>" /> <!--Have to use toExternalString() to get the courseID Key ;Used to pass the CourseID to leaderboard_save.jsp   -->
-									<td><input type="text" name="Level_<%= i %>_Points" size="12" value="<%=levelPoints%>" onkeyup="checkForm()"/></td>
+									<td><input type="text" name="Level_<%= i %>_Points" id="lvlpts<%= i%>" size="12" value="<%=levelPoints%>" 
+												onkeyup="if(isNaN(value)){this.value='';alert('Please enter a valid number for the level Points');}"
+												onblur="if(value <= parseInt(document.getElementById('lvlpts<%= i-1 %>').value))												   
+												       { this.value = ''; alert('Please enter a number greater than the previous level!');}
+												        if (value >= parseInt(document.getElementById('lvlpts<%=i+1%>').value))
+												        {this.value = ''; alert('Please enter a number less than the proceeding level!');}"
+											    /></td>
+									 
+							        
+																																	
+									<!-- If you would rather the text box be reset if the user attempts to enter a non-numeric character, use this instead: onkeypress = "if(isNaN(value))  -->
 									<td><input type="text" name="Level_<%= i %>_Labels" size="18" value="<%=levelLabel%> " /></td>
 								</tr>
-								
+							
 							<% } %>
-						</table>
+						</table> 
 						<!-- Javascript Form Logic //-->
-						<script type="text/javascript" src="<%= jsConfigFormPath %>"></script>
+						<script type="text/javascript" src="<%= jsConfigFormPath %>">						</script>
 					</bbNG:dataElement>
 				</bbNG:step>
 				

@@ -81,8 +81,21 @@ function checkForm() {
 		if(document.getElementsByName("Level_" + (i-1) + "_Points")[0].value == "" 
 		|| document.getElementsByName("Level_" + (i-1) + "_Points")[0].disabled) {
 			document.getElementsByName("Level_" + i + "_Points")[0].disabled = true;
-		} else {
+		}
+		else {
 			document.getElementsByName("Level_" + i + "_Points")[0].disabled = false;
 		}
 	}
+}
+
+/*function checkIt(value){
+	if(isNaN(value))
+	{
+		alert('Please enter a number for the level Points')
+		} 
+	 if(value < 0)
+	 {
+		 alert('Please enter a non-negative number!')
+		 }
+	 
 }
