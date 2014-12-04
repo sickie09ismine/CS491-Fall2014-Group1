@@ -97,7 +97,7 @@
 								
 								//Sets some default values if none is set
 								if(i == 1){
-									levelLabel = "Noob";
+									levelLabel = "Novice";
 									levelPoints = "0";
 								}
 								if(i == 2 && levelLabel.equals("") && levelPoints.equals("")) {
